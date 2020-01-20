@@ -30,7 +30,7 @@ target_decoding = {
     '1': 'functional needs repair',
     '2': 'non functional'}
 
-def read_preprocess(x_path, y_path):
+def read_preprocess(x_path, y_path, target_encoding=None):
     repl = {'construction_year': {0: np.nan},
          'scheme_management': {'None': np.nan},
          'population': {0: np.nan}}
@@ -39,7 +39,8 @@ def read_preprocess(x_path, y_path):
     if y_path:
         df_y = pd.read_csv(y_path)
         df = pd.merge(df, df_y, left_on='id', right_on='id', how='left')
-        # df['status_group'] = df['status_group'].replace(target_encoding)
+        if target_encoding:
+            df['status_group'] = df['status_group'].replace(target_encoding)
     df = df.replace(repl)
 
     df.date_recorded = pd.to_datetime(df.date_recorded, format="%Y-%m-%d")

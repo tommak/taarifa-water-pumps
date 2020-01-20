@@ -84,7 +84,7 @@ class BayesianTargetEncoder(BaseEstimator, TransformerMixin):
                 x = X[name]
 
             posteriors = self.posteriors_[name]
-            X[name] = x.map(posteriors).astype(float)
+            X[name] = x.map(posteriors).fillna(self.prior_).astype(float)
 
         return X
 
